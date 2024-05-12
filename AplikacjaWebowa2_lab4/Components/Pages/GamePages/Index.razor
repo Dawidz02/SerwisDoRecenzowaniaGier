@@ -1,0 +1,28 @@
+﻿@page "/games"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject AplikacjaWebowa2_lab4.Data.ApplicationDbContext DB
+@using AplikacjaWebowa2_lab4.Components
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="games/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Game" Sortable="true">
+    <PropertyColumn Property="game => game.Title" Sortable="true" />
+    <PropertyColumn Property="game => game.Genre" Sortable="true" />
+    <PropertyColumn Property="game => game.ReleaseDate" Sortable="true" />
+    <PropertyColumn Property="game => game.Metacritic" Sortable="true" />
+    <PropertyColumn Property="game => game.AverageRate" Format="0.00" Sortable="true" />
+
+    <TemplateColumn Context="game">
+        <a href="@($"games/edit?id={game.Id}")">Edit</a> |
+        <a href="@($"games/details?id={game.Id}")">Details</a> |
+        <a href="@($"games/delete?id={game.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

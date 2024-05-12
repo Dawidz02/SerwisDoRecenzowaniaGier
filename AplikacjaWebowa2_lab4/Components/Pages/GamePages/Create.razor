@@ -1,0 +1,68 @@
+﻿@page "/games/create"
+@inject AplikacjaWebowa2_lab4.Data.ApplicationDbContext DB
+@using AplikacjaWebowa2_lab4.Components
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Game</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Game" OnValidSubmit="AddGame" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label> 
+                <InputText id="title" @bind-Value="Game.Title" class="form-control" /> 
+                <ValidationMessage For="() => Game.Title" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="genre" class="form-label">Genre:</label> 
+                <InputText id="genre" @bind-Value="Game.Genre" class="form-control" /> 
+                <ValidationMessage For="() => Game.Genre" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="releasedate" class="form-label">ReleaseDate:</label> 
+                <InputDate id="releasedate" @bind-Value="Game.ReleaseDate" class="form-control" /> 
+                <ValidationMessage For="() => Game.ReleaseDate" class="text-danger" /> 
+            </div>  
+            <div class="mb-3">
+                <label for="metacritic" class="form-label">Metacritic:</label>
+                <InputNumber id="metacritic" @bind-Value="Game.Metacritic" class="form-control" />
+                <ValidationMessage For="() => Game.Metacritic" class="text-danger" />
+            </div>       
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label> 
+                <InputText id="description" @bind-Value="Game.Description" class="form-control" /> 
+                <ValidationMessage For="() => Game.Description" class="text-danger" /> 
+            </div>    
+            <div class="mb-3">
+                <label for="ImageUrl" class="form-label">ImageUrl:</label>
+                <InputText id="ImageUrl" @bind-Value="Game.ImageUrl" class="form-control" />
+                <ValidationMessage For="() => Game.ImageUrl" class="text-danger" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/games">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Game Game { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddGame()
+    {
+        DB.Game.Add(Game);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/games");
+    }
+}
